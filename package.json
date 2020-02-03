@@ -6,6 +6,10 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "koa": "^2.11.0",
+    "koa-router": "^8.0.6",
+    "nodemon": "^2.0.2",
+    "pg": "^7.18.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "3.3.1"
@@ -14,7 +18,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "server": "nodemon server",
+    "eject": "react-scripts eject",
+    "db:create": "psql -c 'create database slams'",
+    "db:migrate": "node ./server/tasks/dbMigrate"
   },
   "eslintConfig": {
     "extends": "react-app"
