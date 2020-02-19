@@ -4,17 +4,25 @@ function isCapitalizedWord(str) {
   return capitalize(str) === str
 }
 
+function isShortWord(word) {
+  return word.length <= 3
+}
+
 function isCapitalizedHeadline(headline) {
   return toWords(headline)
-    .filter((word) => word.length > 3)
+    .filter((w) => !isShortWord(w))
     .every(isCapitalizedWord)
 }
 
+function cutOffAfterPunctuation(str) {
+  return str.replace(/[,.?!:].*$/, '')
+}
+function cutOffBeforePunctuation(str) {
+  return str.replace(/^.*[,.?!:]/, '')
+}
+
 function removePunctuation(str) {
-  return str
-    .replace(/^['’‘]/, '')
-    .replace(/['’‘]$/, '')
-    .replace(/[,.?!:]/, '')
+  return str.replace(/^['’‘]/, '').replace(/['’‘]$/, '')
 }
 
 function toWords(sentence) {
@@ -29,7 +37,8 @@ function sanitizeTitle(title) {
 }
 
 function parseSubjectSnippet(subjectSnippet, { isCapitalized }) {
-  const words = toWords(subjectSnippet)
+  const restOfSentence = cutOffBeforePunctuation(subjectSnippet)
+  const words = toWords(restOfSentence)
   if (!words.length) return ''
   const lastWord = last(words)
   if (isCapitalizedWord(lastWord) && !isCapitalized) {
@@ -38,25 +47,34 @@ function parseSubjectSnippet(subjectSnippet, { isCapitalized }) {
   return lastWord
 }
 
+function removePossession(word) {
+  if (/['’]s$/.test(word)) {
+    return word.replace(/['’]s/, '')
+  }
+  return word
+}
+
 function parseObjectSnippet(objectSnippet, { isCapitalized }) {
-  const words = toWords(objectSnippet)
+  const restOfSentence = cutOffAfterPunctuation(objectSnippet)
+  const words = toWords(restOfSentence)
   if (!words.length) return ''
   const firstWord = first(words)
-  if (/['’]s$/.test(firstWord)) {
-    return firstWord.replace(/['’]s/, '')
-  }
+  let objectWords = [firstWord]
   if (isCapitalizedWord(firstWord) && !isCapitalized) {
-    return takeWhile(words, isCapitalizedWord).join(' ')
+    objectWords = takeWhile(words, isCapitalizedWord)
   }
-  return firstWord
+  return objectWords.map(removePossession).join(' ')
 }
 
 // given a "slam" object, return the slammer and slammee.
 function parse(title) {
+  if (title.includes('slams into')) throw new Error('wrong type of slam')
   const [subjectSnippet, objectSnippet] = sanitizeTitle(title).split(/slams/i)
   const isCapitalized = isCapitalizedHeadline(title)
   const slammer = parseSubjectSnippet(subjectSnippet, { isCapitalized })
   const slammee = parseObjectSnippet(objectSnippet, { isCapitalized })
+  if (isShortWord(slammer) || isShortWord(slammee))
+    throw new Error('no short words, please')
   return { slammer, slammee }
 }
 

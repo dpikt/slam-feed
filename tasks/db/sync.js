@@ -8,6 +8,7 @@ const API_KEY = process.env.API_KEY
 
 // Helper for news-api.org
 async function fetchArticles(params = {}, options = {}) {
+  console.log(params.offset)
   const res = await axios(
     'https://microsoft-azure-bing-news-search-v1.p.rapidapi.com/search',
     {
@@ -23,11 +24,17 @@ async function fetchArticles(params = {}, options = {}) {
   return res.data.value
 }
 
-async function fetchArticlesAfterDate(date, { page = 1 } = {}) {
-  const articles = await fetchArticles({
-    q: 'slams',
-    count: 100,
-  })
+async function fetchAllArticles() {
+  const articles = []
+  for (let i = 0; i < 10; i++) {
+    const a = await fetchArticles({
+      q: 'slams',
+      count: 100,
+      offset: 100 * i,
+    })
+    articles.push(...a)
+  }
+
   // TODO: fetch older
   // const lastArticle = articles[articles.length - 1]
   // const lastArticleDate = new Date(lastArticle.publishedAt)
@@ -39,10 +46,10 @@ async function fetchArticlesAfterDate(date, { page = 1 } = {}) {
 }
 
 async function main() {
-  const latestSlam = await Slam.latest()
-  const latestSlamDate = latestSlam ? latestSlam.time : null
+  // const latestSlam = await Slam.latest()
+  // const latestSlamDate = latestSlam ? latestSlam.time : null
   try {
-    const newArticles = await fetchArticlesAfterDate(latestSlamDate)
+    const newArticles = await fetchAllArticles()
     for (const article of newArticles) {
       await Slam.create({
         title: article.name,
@@ -50,6 +57,7 @@ async function main() {
         time: article.datePublished,
       })
     }
+    console.log((await Slam.all()).length)
   } catch (e) {
     console.error(e)
     process.exit(1)

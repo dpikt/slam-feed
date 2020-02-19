@@ -9,6 +9,7 @@
     "axios": "^0.19.2",
     "date-fns": "^2.9.0",
     "figaro-js": "^3.0.2",
+    "gaxios": "^2.3.1",
     "koa": "^2.11.0",
     "koa-router": "^8.0.6",
     "lodash": "^4.17.15",
@@ -16,10 +17,11 @@
     "pg": "^7.18.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.3.1"
+    "react-scripts": "3.3.1",
+    "react-use": "^13.26.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=8080 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "server": "nodemon server",
@@ -27,7 +29,9 @@
     "db:create": "psql -c 'create database slams'",
     "db:destroy": "psql -c 'drop database slams'",
     "db:migrate": "node ./tasks/db/migrate",
-    "db:sync": "node ./tasks/db/sync"
+    "db:sync": "node ./tasks/db/sync",
+    "db:drop": "node ./tasks/db/drop",
+    "db:init": "yarn db:destroy && yarn db:create && yarn db:migrate && yarn db:sync"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -43,5 +47,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:3000"
 }

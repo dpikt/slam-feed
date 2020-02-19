@@ -2,11 +2,15 @@ const db = require('../../config/db')
 const parse = require('../../parser/parse')
 
 function addParsedAttributes(slam) {
-  const { slammer, slammee } = parse(slam.title)
-  return {
-    ...slam,
-    slammer,
-    slammee,
+  try {
+    const { slammer, slammee } = parse(slam.title)
+    return {
+      ...slam,
+      slammer,
+      slammee,
+    }
+  } catch (e) {
+    return null
   }
 }
 
@@ -14,7 +18,7 @@ async function all() {
   const result = await db.query(`
     select * from slams
   `)
-  return result.rows.map(addParsedAttributes)
+  return result.rows.map(addParsedAttributes).filter(Boolean)
 }
 
 async function latest() {
