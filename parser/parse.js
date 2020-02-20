@@ -22,7 +22,7 @@ function cutOffBeforePunctuation(str) {
 }
 
 function removePunctuation(str) {
-  return str.replace(/^['’"‘]/, '').replace(/['’‘]$/, '')
+  return str.replace(/^['’“"‘]/, '').replace(/['’”‘]$/, '')
 }
 
 function toWords(sentence) {
