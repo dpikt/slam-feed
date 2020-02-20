@@ -8,7 +8,7 @@ const { request } = require('gaxios')
 
 function fetchSlams() {
   return request({
-    url: 'http://localhost:8080/api/slams',
+    url: window.location.origin + '/api/slams',
   }).then(({ data }) => data)
 }
 
