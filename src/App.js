@@ -40,8 +40,8 @@ function App() {
             <li key={i}>
               <span
                 onClick={async () => {
-                  await deleteSlam(id)
-                  refresh()
+                  // await deleteSlam(id)
+                  // refresh()
                 }}
               >
                 <strong>{slammee}</strong> {plural ? 'were' : 'was'} slammed by{' '}
