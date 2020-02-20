@@ -1,4 +1,7 @@
 const { last, first, takeWhile, takeRightWhile, capitalize } = require('lodash')
+const { isPlural } = require('pluralize')
+
+const NON_PLURALS = ['Sanders']
 
 function isCapitalizedWord(str) {
   return capitalize(str) === str
@@ -75,7 +78,8 @@ function parse(title) {
   const slammee = parseObjectSnippet(objectSnippet, { isCapitalized })
   if (isShortWord(slammer) || isShortWord(slammee))
     throw new Error('no short words, please')
-  return { slammer, slammee }
+  const plural = isPlural(slammee) && !NON_PLURALS.includes(slammee)
+  return { slammer, slammee, plural }
 }
 
 module.exports = parse

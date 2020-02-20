@@ -1,11 +1,9 @@
 const db = require('../../config/db')
 const parse = require('../../parser/parse')
-const { isPlural } = require('pluralize')
 
 function addParsedAttributes(slam) {
   try {
-    const { slammer, slammee } = parse(slam.title)
-    const plural = isPlural(slammee)
+    const { slammer, slammee, plural } = parse(slam.title)
     return {
       ...slam,
       slammer,
@@ -19,7 +17,7 @@ function addParsedAttributes(slam) {
 
 async function all() {
   const result = await db.query(`
-    select * from slams
+    select * from slams order by time desc
   `)
   return result.rows.map(addParsedAttributes).filter(Boolean)
 }
