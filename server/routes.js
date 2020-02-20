@@ -2,12 +2,11 @@ const Router = require('koa-router')
 const apiRouter = new Router()
 const router = new Router()
 const slamController = require('./controllers/slam.controller')
-const path = require('path')
-const send = require('koa-send')
 const serveStatic = require('koa-static')
 const fs = require('fs')
 
 apiRouter.get('/slams', slamController.index)
+apiRouter.delete('/slams/:id', slamController.destroy)
 
 // Nest API routes
 router.use('/api', apiRouter.routes(), apiRouter.allowedMethods())

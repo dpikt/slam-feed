@@ -10,10 +10,9 @@
     "server": "nodemon server",
     "eject": "react-scripts eject",
     "db:create": "psql -c 'create database slams'",
-    "db:destroy": "psql -c 'drop database slams'",
     "db:migrate": "node ./tasks/db/migrate",
     "db:sync": "node ./tasks/db/sync",
-    "db:drop": "node ./tasks/db/drop",
+    "db:drop": "psql -c 'drop database slams'",
     "db:init": "yarn db:destroy && yarn db:create && yarn db:migrate && yarn db:sync"
   },
   "dependencies": {
@@ -26,7 +25,6 @@
     "gaxios": "^2.3.1",
     "koa": "^2.11.0",
     "koa-router": "^8.0.6",
-    "koa-send": "^5.0.0",
     "koa-static": "^5.0.0",
     "lodash": "^4.17.15",
     "nodemon": "^2.0.2",

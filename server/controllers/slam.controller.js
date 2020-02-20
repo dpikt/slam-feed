@@ -5,4 +5,10 @@ async function index(ctx, next) {
   // return next()
 }
 
-module.exports = { index }
+async function destroy(ctx, next) {
+  await Slam.destroy(ctx.params.id)
+  ctx.body = 'Success'
+  // return next()
+}
+
+module.exports = { index, destroy }

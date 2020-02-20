@@ -42,4 +42,15 @@ async function create({ title, url, time }) {
   return result
 }
 
-module.exports = { all, latest, create }
+async function destroy(id) {
+  await db.query(
+    `
+    delete from slams 
+    where id=$1
+  `,
+    [id]
+  )
+  return true
+}
+
+module.exports = { all, latest, create, destroy }

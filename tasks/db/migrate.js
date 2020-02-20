@@ -6,7 +6,8 @@ async function main() {
        title char(200),
        url char(200),
        time timestamp,
-       primary key(title)
+       primary key(title),
+       id serial
     )
     `)
   process.exit(0)
