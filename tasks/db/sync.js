@@ -26,7 +26,7 @@ async function fetchArticles(params = {}, options = {}) {
 
 async function fetchAllArticles() {
   const articles = []
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 3; i++) {
     const a = await fetchArticles({
       q: 'slams',
       count: 100,
