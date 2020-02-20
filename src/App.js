@@ -25,9 +25,9 @@ function App() {
         <p>Loading...</p>
       ) : (
         <ul>
-          {slams.map(({ slammer, slammee, time, url }, i) => (
+          {slams.map(({ slammer, slammee, time, url, plural }, i) => (
             <li key={i}>
-              <strong>{slammee}</strong> was slammed by{' '}
+              <strong>{slammee}</strong> {plural ? 'were' : 'was'} slammed by{' '}
               <strong>{slammer}</strong>
               <ul>
                 <li>

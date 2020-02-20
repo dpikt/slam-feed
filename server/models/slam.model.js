@@ -1,13 +1,16 @@
 const db = require('../../config/db')
 const parse = require('../../parser/parse')
+const { isPlural } = require('pluralize')
 
 function addParsedAttributes(slam) {
   try {
     const { slammer, slammee } = parse(slam.title)
+    const plural = isPlural(slammee)
     return {
       ...slam,
       slammer,
       slammee,
+      plural,
     }
   } catch (e) {
     return null
