@@ -15,10 +15,10 @@ function isCapitalizedHeadline(headline) {
 }
 
 function cutOffAfterPunctuation(str) {
-  return str.replace(/[,.?!:].*$/, '')
+  return str.replace(/[,.?!:;].*$/, '')
 }
 function cutOffBeforePunctuation(str) {
-  return str.replace(/^.*[,.?!:]/, '')
+  return str.replace(/^.*[,.?!:;]/, '')
 }
 
 function removePunctuation(str) {
