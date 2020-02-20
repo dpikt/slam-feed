@@ -2,6 +2,20 @@
   "name": "slam",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "PORT=8080 react-scripts start",
+    "build": "react-scripts build",
+    "heroku-postbuild": "yarn db:init && yarn build",
+    "test": "react-scripts test",
+    "server": "nodemon server",
+    "eject": "react-scripts eject",
+    "db:create": "psql -c 'create database slams'",
+    "db:destroy": "psql -c 'drop database slams'",
+    "db:migrate": "node ./tasks/db/migrate",
+    "db:sync": "node ./tasks/db/sync",
+    "db:drop": "node ./tasks/db/drop",
+    "db:init": "yarn db:destroy && yarn db:create && yarn db:migrate && yarn db:sync"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -21,19 +35,6 @@
     "react-dom": "^16.12.0",
     "react-scripts": "3.3.1",
     "react-use": "^13.26.1"
-  },
-  "scripts": {
-    "start": "PORT=8080 react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "server": "nodemon server",
-    "eject": "react-scripts eject",
-    "db:create": "psql -c 'create database slams'",
-    "db:destroy": "psql -c 'drop database slams'",
-    "db:migrate": "node ./tasks/db/migrate",
-    "db:sync": "node ./tasks/db/sync",
-    "db:drop": "node ./tasks/db/drop",
-    "db:init": "yarn db:destroy && yarn db:create && yarn db:migrate && yarn db:sync"
   },
   "eslintConfig": {
     "extends": "react-app"
